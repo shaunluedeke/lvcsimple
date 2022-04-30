@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('brodcastdates', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('weekday');
+            $table->integer('delay');
+            $table->string('time');
+            $table->string('link');
+            $table->integer('last_broadcast');
+            $table->boolean('NEXT');
+            $table->boolean("ACTIVE");
+
             $table->timestamps();
         });
     }

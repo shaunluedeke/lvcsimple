@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('charts', function (Blueprint $table) {
             $table->id();
+            $table->text('song_ids');
+            $table->text('votes');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->boolean('is_active')->default(true);
+            $table->bigInteger('autoset')->default(0);
             $table->timestamps();
         });
     }

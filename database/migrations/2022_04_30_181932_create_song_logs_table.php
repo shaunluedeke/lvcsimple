@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('song_logs', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('song_id');
+            $table->bigInteger('status_id');
             $table->timestamps();
         });
     }

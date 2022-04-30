@@ -58,13 +58,7 @@
                 <ul class="navbar-nav me-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('akten.index') }}">Akten</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('persons.index') }}">Personen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('bussgeld.index') }}">Bußgelder</a>
+                            <a class="nav-link" href="{{ route('song.index') }}">Songs</a>
                         </li>
                     @endauth
                 </ul>
