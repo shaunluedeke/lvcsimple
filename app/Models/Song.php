@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Song extends Model
 {
@@ -68,4 +69,34 @@ class Song extends Model
         return $return;
     }
 
+    public function isNewSong(): bool
+    {
+        $allcharts = Chart::all();
+        $i = 0;
+        foreach ($allcharts as $chart) {
+            $songs = $chart->getSongs();
+            foreach ($songs as $song) {
+                if ($song->id === $this->id) {
+                    $i++;
+                }
+            }
+        }
+        return $i < 2;
+    }
+
+    public function getURL()
+    {
+        return Storage::disk('public')->url("song/".$this->file);
+    }
+
+    public static function getAllSongsSortedbyLikes()
+    {
+        $allcharts = Song::all();
+        $songs = [];
+        foreach ($allcharts as $chart) {
+            $songs[$chart->id] = $chart->getLikes();
+        }
+        arsort($songs);
+        return $songs;
+    }
 }

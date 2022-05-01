@@ -43,4 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'role_id' => 'integer'
     ];
+
+    public function isAdmin():bool{
+        return (int)$this->role_id >= 5;
+    }
 }

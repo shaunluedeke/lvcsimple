@@ -2,6 +2,7 @@
 
 @section('content-header')
     <h3>Song | {{\App\Http\Controllers\MainController::addSymbol($song->name)}}</h3>
+    <a class="btn btn-danger" href="{{back()->getTargetUrl() === (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ? '/song' : back()->getTargetUrl()}}">Zurück</a>
 @endsection
 
 @section('content')
@@ -9,7 +10,7 @@
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
     <div>
-        <audio controls><source src="{{ $song->file }}"></audio>
+        <audio controls><source src="{{ $song->getURL() }}"></audio>
         <br>
         <hr>
         <h4>Infos:</h4>
@@ -44,6 +45,7 @@
         <br>
         <hr><br><br>
         <h4>Comments:</h4>
+        @auth
         <form method="post" action="{{route('song.addcommants',['song'=>$song])}}">
             @csrf
             <div class="form-group">
@@ -52,6 +54,7 @@
             <input class="btn btn-success" type="submit" name="Senden">
         </form>
         <hr>
+        @endauth
         @foreach($song->getComments() as $comment)
             <div class="container">
                 <div class="row justify-content-center">

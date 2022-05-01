@@ -15,7 +15,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://rawcdn.githack.com/hung1001/font-awesome-pro-v6/18657a9/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://rawcdn.githack.com/hung1001/font-awesome-pro-v6/18657a9/css/all.min.css" rel="stylesheet"
+          type="text/css"/>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -45,7 +46,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-body shadow-sm " style="position: fixed; width: 100%; top:0px">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'AktenSystem') }}
+                {{ config('app.name', 'LVCharts') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -56,11 +57,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('song.index') }}">Songs</a>
-                        </li>
-                    @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('song.index') }}">Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('charts.index') }}">Charts</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -108,7 +110,8 @@
                     <p style="margin-top: 10px">&copy; {{date('Y')}}
                         <a href="https://lvcharts.de" style="text-decoration: none;color:black;">LVCharts</a>
                         • <i class="fad fa-arrow-alt-from-bottom"></i> Version 0.4
-                        • <a href="https://lvcharts.de/wls/index.php?legal-notice/" style="text-decoration: none;color:black;">Imprint</a>
+                        • <a href="https://lvcharts.de/wls/index.php?legal-notice/"
+                             style="text-decoration: none;color:black;">Imprint</a>
                     </p>
                 </div>
             </div>

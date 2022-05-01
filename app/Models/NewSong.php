@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class NewSong extends Model
 {
@@ -18,9 +19,14 @@ class NewSong extends Model
     public function getInfo()
     {
         try{
-            return json_decode($this->info, false, 512, JSON_THROW_ON_ERROR);
+            return json_decode($this->info, true, 512, JSON_THROW_ON_ERROR);
         }catch (\JsonException $e){
             return [];
         }
+    }
+
+    public function getURL()
+    {
+        return Storage::disk('public')->url("song/new/".$this->file);
     }
 }

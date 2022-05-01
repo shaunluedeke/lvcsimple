@@ -24,7 +24,7 @@ class SongController extends Controller
      */
     public function create()
     {
-        //
+        if(MainController::isLogin() !== true){return MainController::isLogin();}
     }
 
     /**
@@ -35,7 +35,7 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(MainController::isLogin() !== true){return MainController::isLogin();}
     }
 
     /**
@@ -77,6 +77,7 @@ class SongController extends Controller
 
     public function updatethums(Song $song, string $action = "none")
     {
+        if(MainController::isLogin() !== true){return MainController::isLogin();}
         if ($action !== "up" && $action !== "down") {
             return redirect()->back();
         }
@@ -114,8 +115,8 @@ class SongController extends Controller
     }
 
     public function addcommants(Request $request, Song $song){
+        if(MainController::isLogin() !== true){return MainController::isLogin();}
         $comments = $song->getComments();
-        $random= 0;
         try {
             $random = random_int(1, 100000000000);
             while (array_key_exists($random, $comments)) {
