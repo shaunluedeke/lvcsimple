@@ -14,38 +14,36 @@
                 <th scope="col" data-sortable="true" data-field="Akte">ID</th>
                 <th scope="col" data-sortable="true" data-field="name">Start Datum</th>
                 <th scope="col" data-sortable="true" data-field="date">End Datum</th>
+                <th scope="col" data-field="creaor"></th>
                 <th scope="col" data-field="creator"></th>
             </tr>
             </thead>
             <tbody>
+            <tr><td colspan="5"><a href="{{route('admin.charts.create')}}" class="btn-success btn">Neue Erstellen</a></td></tr>
             @if(count($active)>0)
                 <tr>
-                    <td colspan="4">Neue Charts</td>
+                    <td colspan="5">Neue Charts</td>
                 </tr>
                 @foreach($active as $chart)
                     <tr>
                         <td>{{$chart->id}}</td>
                         <td>{{date('d.m.Y',strtotime($chart->start_date))}}</td>
                         <td>{{date('d.m.Y',strtotime($chart->end_date))}}</td>
-                        @auth
-                            <td><a class="btn btn-success" href="{{route('charts.show',['chart'=>$chart->id])}}">Abstimmen</a></td>
-                        @endauth
-                        @guest
-                            <td><a class="btn btn-primary" href="{{route('charts.show',['chart'=>$chart->id])}}">Abstimmen ansehen</a></td>
-                        @endguest
+                        <td><a class="btn btn-success" href="{{route('admin.charts.id',['chart'=>$chart])}}">Abstimmen verwalten</a></td>
+                        <td><a class="btn btn-success" href="{{route('admin.charts.id.points',['chart'=>$chart])}}">Punkte hinzufügen</a></td>
                     </tr>
                 @endforeach
             @endif
             @if(count($inactive)>0)
                 <tr>
-                    <td colspan="4">Alte Charts</td>
+                    <td colspan="5">Alte Charts</td>
                 </tr>
                 @foreach($inactive as $chart)
                     <tr>
                         <td>{{$chart->id}}</td>
                         <td>{{date('d.m.Y',strtotime($chart->start_date))}}</td>
                         <td>{{date('d.m.Y',strtotime($chart->end_date))}}</td>
-                        <td><a class="btn btn-primary" href="{{route('charts.show',['chart'=>$chart->id])}}">Abstimmung ansehen</a></td>
+                        <td><a class="btn btn-primary" href="{{route('admin.charts.id',['chart'=>$chart])}}">Abstimmung ansehen</a></td>
                     </tr>
                 @endforeach
             @endif
@@ -58,6 +56,7 @@
                 crossorigin="anonymous"></script>
         <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
     @else
-        <h1>No songs found</h1>
+        <h1>No Charts found! You can create a new Chart</h1>
+        <a href="{{route('admin.charts.create')}}" class="btn-success btn">Neue Erstellen</a>
     @endif
 @endsection

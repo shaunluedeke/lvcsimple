@@ -55,14 +55,13 @@ class Chart extends Model
 
     public function userhasVoted()
     {
-        if (Auth::user() === null) {
-            return false;
-        }
-        $votes = $this->getVotes();
-        if (isset($votes[Auth::user()->id])) {
-            return true;
-        }
-        return false;
+        if (Auth::user() === null) {return false;}
+        return $this->hasVoted(Auth::user()->id);
+    }
+
+    public function hasVoted(int $id)
+    {
+        return isset($this->getVotes()[$id]);
     }
 
     public function getUserVoted(): array
@@ -123,5 +122,15 @@ class Chart extends Model
             $re[$key] = ['id' => $key, 'votes' => $value, 'place' => $s[$key]];
         }
         return $re;
+    }
+
+    public function isStarted():bool
+    {
+        return $this->autoset === 1;
+    }
+
+    public function isEnded():bool
+    {
+        return $this->autoset === 2;
     }
 }

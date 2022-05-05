@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileUploadRequest;
 use App\Models\NewSong;
 use App\Models\Song;
+use App\Models\SongLog;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -40,7 +41,8 @@ class MainController extends Controller
     public function newsong(Request  $request){
         $request->validate([
             'name' => 'required:max:255',
-            'author' => 'required:max:255'
+            'author' => 'required:max:255',
+            'datei'=> 'required:max:2048'
         ]);
 
         if($this->isLogin()!==true){return $this->isLogin();}
@@ -78,7 +80,9 @@ class MainController extends Controller
         }else{
             Storage::disk('public')->putFileAs("song", $file, $fileName);
         }
-
+        if(Auth::user()->isAdmin()) {
+            SongLog::create(['song_id' => $song->id, 'status_id' => 1]);
+        }
         return redirect()->back()->withErrors(['success' => 'Neue Datei erfolgreich hochgeladen!']);
     }
 }

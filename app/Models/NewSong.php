@@ -19,7 +19,7 @@ class NewSong extends Model
     public function getInfo()
     {
         try{
-            return json_decode($this->info, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($this->info, false, 512, JSON_THROW_ON_ERROR);
         }catch (\JsonException $e){
             return [];
         }

@@ -63,6 +63,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('charts.index') }}">Charts</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('songlog.index') }}">Song Logs</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

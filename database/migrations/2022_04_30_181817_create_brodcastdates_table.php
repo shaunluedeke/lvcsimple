@@ -20,9 +20,9 @@ return new class extends Migration
             $table->integer('delay');
             $table->string('time');
             $table->string('link');
-            $table->integer('last_broadcast');
-            $table->boolean('NEXT');
-            $table->boolean("ACTIVE");
+            $table->integer('last_broadcast')->default(0);
+            $table->boolean('NEXT')->default(false);
+            $table->boolean("ACTIVE")->default(true);
 
             $table->timestamps();
         });

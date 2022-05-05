@@ -99,4 +99,8 @@ class Song extends Model
         arsort($songs);
         return $songs;
     }
+
+    public function getSongLog(){
+        return $this->belongsTo('App\Models\SongLog');
+    }
 }

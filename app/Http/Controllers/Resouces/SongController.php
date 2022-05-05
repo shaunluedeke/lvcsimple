@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resouces;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Song;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class SongController extends Controller

@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resouces;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Chart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function App\Http\Controllers\str_contains;
 
 class ChartController extends Controller
 {
     public function index()
     {
         $charts = Chart::all();
-        $activeCharts = []; $charts->where('is_active', true)->where('autoset',1);
+        $activeCharts = [];
+        $charts->where('is_active', true)->where('autoset', 1);
         $inactiveCharts = [];
-        foreach ($charts as $chart){
-            if($chart->is_active && $chart->autoset === 1 && !$chart->userhasVoted()){
+        foreach ($charts as $chart) {
+            if ($chart->is_active && $chart->autoset === 1 && !$chart->userhasVoted()) {
                 $activeCharts[] = $chart;
-            }else{
+            } else {
                 $inactiveCharts[] = $chart;
             }
         }
@@ -37,7 +41,7 @@ class ChartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,18 +52,18 @@ class ChartController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Chart $chart)
     {
-        return view('charts.show', ['chart' => $chart,'voted' => $chart->userhasVoted()]);
+        return view('charts.show', ['chart' => $chart, 'voted' => $chart->userhasVoted()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,8 +74,8 @@ class ChartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -82,7 +86,7 @@ class ChartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -92,35 +96,36 @@ class ChartController extends Controller
 
     public function vote(Request $request, Chart $chart)
     {
-        if($chart->userhasVoted()){
+
+        if ($chart->userhasVoted()) {
             return redirect()->back()->withErrors(['error' => 'You have already voted for this chart'])->withInput();
         }
-        if(MainController::isLogin() !== true){
+        if (MainController::isLogin() !== true) {
             return redirect()->back()->withErrors(['error' => 'You must be logged in to vote'])->withInput();
         }
-
         $input = $request->input();
         $exist = [];
         $data = [];
-        foreach ($input as $key => $value){
-            if(str_contains($key, 'vote')){
+        foreach ($input as $key => $value) {
+            if (str_contains($key, 'vote')) {
                 $in = (int)($value ?? 0);
-                if(!($in <1 || $in >3)){
-                    if(!in_array($in, $exist, true)){
+                if (!($in < 1 || $in > 3)) {
+                    if (!in_array($in, $exist, true)) {
                         $exist[] = $in;
                         $data[explode('/', $key)[1]] = ($in === 3 ? 1 : ($in === 1 ? 3 : $in));
-                    }else{
+                    } else {
                         return redirect()->back()->withErrors(['error' => 'You can only vote once for each place'])->withInput();
                     }
                 }
             }
         }
-        if(count($data) !== 3){
+        if (count($data) !== 3) {
             return redirect()->back()->withErrors(['error' => 'You must vote for all three options'])->withInput();
         }
 
         $votes = $chart->getVotes();
         $votes[Auth::user()->id] = $data;
+
         try {
             $chart->votes = json_encode($votes, JSON_THROW_ON_ERROR);
             $chart->update();

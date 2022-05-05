@@ -24,4 +24,10 @@ class SongLog extends Model
         return $this->belongsTo('App\Models\Song');
     }
 
+    public function status():string
+    {
+        $a = [ 1 => 'Neu',2 => 'Entfernt'];
+        return $a[$this->status_id];
+    }
+
 }
