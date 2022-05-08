@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Resouces\UserController;
 use App\Models\Chart;
 use App\Models\SongLog;
 use Illuminate\Support\Facades\Route;
@@ -111,7 +112,6 @@ Route::get('songlogs', static function () {
 })->name('songlog.index');
 #endregion
 
-
 #region Admin
 Route::prefix('/admin')->middleware('auth')->group(static function() {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -151,5 +151,15 @@ Route::prefix('/admin')->middleware('auth')->group(static function() {
     });
 });
 
+
+#endregion
+
+#region User
+
+Route::prefix('settings')->middleware('auth')->group(static function() {
+    Route::get('/', [UserController::class, 'settings'])->name('user.settings');
+    Route::put('/{user}/language', [UserController::class, 'settingslanguage'])->name('user.settings.language');
+    Route::put('/{user}/pw', [UserController::class, 'settingspassword'])->name('user.settings.password');
+});
 
 #endregion
