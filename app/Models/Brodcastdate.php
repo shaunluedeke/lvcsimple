@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Brodcastdate extends Model
 {
     use HasFactory;
-
+    protected $table = 'brodcastdates';
     protected $fillable = [
         'name',
         'weekday',
         'delay',
         'time',
-        'last_broadcast',
+        'last_brodcast',
         'link',
         'NEXT',
         'ACTIVE'
     ];
+
 
     protected $casts = [
         'ACTIVE' => 'boolean',

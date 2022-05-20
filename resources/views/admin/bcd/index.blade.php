@@ -9,6 +9,7 @@
         <table id="Table" class="table table-striped" style="width: 100%;" data-toggle="table" data-pagination="true" data-search="true">
             <thead>
             <tr>
+                <th scope="col" data-sortable="true" data-field="id">ID</th>
                 <th scope="col" data-sortable="true" data-field="Akte">Name</th>
                 <th scope="col" data-sortable="true" data-field="name">Link</th>
                 <th scope="col" data-sortable="true" data-field="date">Wochentag</th>
@@ -23,6 +24,7 @@
             </tr>
             @forelse($bcds as $bcd)
                 <tr>
+                    <td>{{$bcd->id}}</td>
                     <td>{{\App\Http\Controllers\MainController::addSymbol($bcd->name)}}</td>
                     <td>{{$bcd->link}}</td>
                     <td>{{$bcd->getDay()}}</td>

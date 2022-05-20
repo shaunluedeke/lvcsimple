@@ -32,16 +32,16 @@
         </dl>
         <dl class="form-group">
             <dt><label for="delay">Woche im Monat</label></dt>
-            <dd><input class="form-control" required="" type="number" id="delay" name="delay" min="1" max="5" step="1"
+            <dd><input class="form-control" required type="number" id="delay" name="delay" min="1" max="5" step="1"
                        value="{{old('delay')??0}}"><small></small></dd>
         </dl>
         <dl class="form-group">
             <dt><label for="time">Gebe die Uhrzeit an (15:00)</label></dt>
-            <dd><input class="form-control" required="" type="time" id="time" name="time" value="{{old('time')}}"></dd>
+            <dd><input class="form-control" required type="text" id="time" name="time" value="{{old('time')}}"></dd>
         </dl>
         <dl class="form-group">
             <dt><label for="time">Letzte Sendung</label></dt>
-            <dd><input class="form-control" required="" type="number" id="time" name="last" value="{{old('last')}}"></dd>
+            <dd><input class="form-control" required type="number" id="time" name="last" value="{{old('last')}}"></dd>
         </dl>
         <button class="btn btn-success" accesskey="s" id="button" value="bcdadd" name="button">
             Absenden

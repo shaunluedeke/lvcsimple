@@ -7,7 +7,6 @@ use App\Http\Controllers\MainController;
 use App\Models\Chart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function App\Http\Controllers\str_contains;
 
 class ChartController extends Controller
 {
@@ -28,71 +27,11 @@ class ChartController extends Controller
         return view('charts.index', ['active' => $activeCharts, 'inactive' => $inactiveCharts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Chart $chart)
     {
         return view('charts.show', ['chart' => $chart, 'voted' => $chart->userhasVoted()]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function vote(Request $request, Chart $chart)
     {
@@ -116,6 +55,8 @@ class ChartController extends Controller
                     } else {
                         return redirect()->back()->withErrors(['error' => 'You can only vote once for each place'])->withInput();
                     }
+                }else if($in !== 0){
+                    return redirect()->back()->withErrors(['error' => 'You can only vote between 1 and 3'])->withInput();
                 }
             }
         }
@@ -124,7 +65,7 @@ class ChartController extends Controller
         }
 
         $votes = $chart->getVotes();
-        $votes[Auth::user()->id] = $data;
+        $votes[Auth::user()->userID] = $data;
 
         try {
             $chart->votes = json_encode($votes, JSON_THROW_ON_ERROR);

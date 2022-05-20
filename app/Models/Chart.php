@@ -56,7 +56,7 @@ class Chart extends Model
     public function userhasVoted()
     {
         if (Auth::user() === null) {return false;}
-        return $this->hasVoted(Auth::user()->id);
+        return $this->hasVoted(Auth::user()->userID);
     }
 
     public function hasVoted(int $id)
@@ -69,7 +69,7 @@ class Chart extends Model
         if (!$this->userhasVoted()) {
             return [];
         }
-        return $this->getVotes()[Auth::user()->id] ?? [];
+        return $this->getVotes()[Auth::user()->userID] ?? [];
     }
 
     public function getTopSongs(): array

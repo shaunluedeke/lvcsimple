@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Resouces\UserController;
 use App\Models\Chart;
 use App\Models\SongLog;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +32,15 @@ Route::get('/', static function () {
     return view('index', ['active' => $activeCharts, 'inactive' => $inactiveCharts, 'ad' => \App\Http\Controllers\AdController::getRandomAd()]);
 })->name('home');
 
-Auth::routes();
+Route::get('login', static function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('login', [ \App\Http\Controllers\Resouces\LoginController::class, 'login' ]);
+Route::post('logout', [ \App\Http\Controllers\Resouces\LoginController::class, 'logout' ])->name('logout');
+
+
+Route::redirect('/register', 'https://lvcharts.de/wls/index.php?register/')->name('register');
 
 Route::redirect("/home", "/");
 
@@ -61,7 +68,7 @@ Route::get('/new-song', static function () {
     return view('newsong.index');
 })->middleware('auth')->name('newsong.index');
 
-Route::post('/new-song', [App\Http\Controllers\MainController::class, 'newSong'])->middleware('auth');
+Route::post('/new-song', [App\Http\Controllers\MainController::class, 'newSong'])->middleware('auth')->name('newsong.create');
 
 #endregion
 
@@ -154,12 +161,3 @@ Route::prefix('/admin')->middleware('auth')->group(static function() {
 
 #endregion
 
-#region User
-
-Route::prefix('settings')->middleware('auth')->group(static function() {
-    Route::get('/', [UserController::class, 'settings'])->name('user.settings');
-    Route::put('/{user}/language', [UserController::class, 'settingslanguage'])->name('user.settings.language');
-    Route::put('/{user}/pw', [UserController::class, 'settingspassword'])->name('user.settings.password');
-});
-
-#endregion

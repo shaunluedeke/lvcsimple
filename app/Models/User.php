@@ -12,17 +12,20 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    protected $table = 'wcf1_user';
+    protected $primaryKey = 'userID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'userID',
+        'username',
         'email',
         'password',
-        'role_id',
-        'language'
+        'languageID'
     ];
 
     /**
@@ -32,7 +35,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -41,11 +43,18 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'role_id' => 'integer'
+        'languageID' => 'integer'
     ];
 
     public function isAdmin():bool{
-        return (int)$this->role_id >= 5;
+        return (int)$this->userOnlineGroupID === 4;
+    }
+
+    public static function find($id){
+        return self::where('userID', $id)->first();
+    }
+
+    public static function findorFail($id){
+        return self::where('userID', $id)->firstOrFail();
     }
 }

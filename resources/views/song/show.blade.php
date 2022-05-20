@@ -32,9 +32,9 @@
         </table>
         <hr><br>
         @auth
-            <a class="btn {{(array_key_exists(Auth::user()->id,$song->getLikes())) ? 'btn-success': 'btn-primary'}} " href="{{route('song.updatethums',['song'=>$song->id,'action'=>'up'])}}">Likes: {{count($song->getLikes())}}</a>
+            <a class="btn {{(array_key_exists(Auth::user()->userID,$song->getLikes())) ? 'btn-success': 'btn-primary'}} " href="{{route('song.updatethums',['song'=>$song->id,'action'=>'up'])}}">Likes: {{count($song->getLikes())}}</a>
 
-            <a class="btn {{(array_key_exists(Auth::user()->id,$song->getDislikes())) ? 'btn-danger': 'btn-secondary'}} " href="{{route('song.updatethums',['song'=>$song->id,'action'=>'down'])}}">Dislikes: {{count($song->getDislikes())}}</a>
+            <a class="btn {{(array_key_exists(Auth::user()->userID,$song->getDislikes())) ? 'btn-danger': 'btn-secondary'}} " href="{{route('song.updatethums',['song'=>$song->id,'action'=>'down'])}}">Dislikes: {{count($song->getDislikes())}}</a>
         @endauth
         @guest
             <button class="btn btn-secondary " disabled>Likes: {{count($song->getLikes())}}</button>
@@ -60,10 +60,14 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="card">
-                            <div class="card-header">Von {{\App\Models\User::find($comment['user_id'])->name}} um {{date('H:i',strtotime($comment['created_at'])). " am ".date('d.m.Y',strtotime($comment['created_at']))}}</div>
+                            @if(isset($comment['user_id'])))
+                                <div class="card-header">Von {{\App\Models\User::find($comment['user_id'])->username}} um {{date('H:i',strtotime($comment['time'])). " am ".date('d.m.Y',strtotime($comment['time']))}}</div>
+                            @else
+                                <div class="card-header">Von {{$comment['name']}} um {{date('H:i',strtotime($comment['time'])). " am ".date('d.m.Y',strtotime($comment['time']))}}</div>
+                            @endif
 
                             <div class="card-body">
-                                {{\App\Http\Controllers\MainController::addSymbol($comment['text'])}}
+                                {{\App\Http\Controllers\MainController::addSymbol($comment['comment'])}}
                             </div>
                         </div>
                     </div>

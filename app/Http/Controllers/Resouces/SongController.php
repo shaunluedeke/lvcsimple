@@ -18,33 +18,6 @@ class SongController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        if(MainController::isLogin() !== true){return MainController::isLogin();}
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        if(MainController::isLogin() !== true){return MainController::isLogin();}
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Song $song)
     {
         return view('song.show', [
@@ -52,37 +25,13 @@ class SongController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-
     public function updatethums(Song $song, string $action = "none")
     {
         if(MainController::isLogin() !== true){return MainController::isLogin();}
         if ($action !== "up" && $action !== "down") {
             return redirect()->back();
         }
-        $userid = Auth::user()->id;
+        $userid = Auth::user()->userID;
         $likes = $song->getLikes();
         $dislikes = $song->getDislikes();
         try {
@@ -128,9 +77,10 @@ class SongController extends Controller
         }
 
         $comments[$random] = [
-            'user_id' => Auth::user()->id,
-            'text' => MainController::removeSymbol($request->input('comment',"")),
-            'created_at' => date('Y-m-d H:i:s')
+            'name' => Auth::user()->username,
+            'user_id' => Auth::user()->userID,
+            'comment' => MainController::removeSymbol($request->input('comment',"")),
+            'time' => date('H:i d.m.Y'),
         ];
         try {
             $song->comments = json_encode($comments, JSON_THROW_ON_ERROR);

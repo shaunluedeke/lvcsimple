@@ -94,6 +94,8 @@ class AdminController extends Controller
                     } else {
                         return redirect()->back()->withErrors(['error' => 'You can only vote once for each place'])->withInput();
                     }
+                }else if($in !== 0){
+                    return redirect()->back()->withErrors(['error' => 'You can only vote between 1 and 3'])->withInput();
                 }
             }
         }
@@ -275,7 +277,7 @@ class AdminController extends Controller
                 "weekday" => $request->input('weekday'),
                 "delay" => $request->input('delay'),
                 "time" => $request->input('time'),
-                "last_broadcast" => $request->input('last'),
+                "last_brodcast" => $request->input('last'),
                 "NEXT" => false,
                 "ACTIVE" => true
             ]);

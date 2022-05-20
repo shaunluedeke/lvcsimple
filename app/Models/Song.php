@@ -48,7 +48,7 @@ class Song extends Model
         } catch (\JsonException $e) {
         }
         foreach ($a as $key => $value) {
-            $return[User::find($key)->id] = $value;
+            $return[User::find($key)->userID] = $value;
         }
 
         return $return;
@@ -63,7 +63,7 @@ class Song extends Model
         } catch (\JsonException $e) {
         }
         foreach ($a as $key => $value) {
-            $return[User::find($key)->id] = $value;
+            $return[User::find($key)->userID] = $value;
         }
 
         return $return;
@@ -86,7 +86,7 @@ class Song extends Model
 
     public function getURL()
     {
-        return Storage::disk('public')->url("song/".$this->file);
+        return $this->file;
     }
 
     public static function getAllSongsSortedbyLikes()
