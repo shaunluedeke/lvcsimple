@@ -11,7 +11,7 @@ class Chart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'song_ids', 'votes', 'start_date', 'end_date', 'is_active'
+        'song_ids', 'votes', 'start_date', 'end_date', 'is_active','show_date'
     ];
 
     protected $casts = [
@@ -19,6 +19,7 @@ class Chart extends Model
         'votes' => 'string',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'show_date' => 'datetime',
         'is_active' => 'boolean'
     ];
 
@@ -41,6 +42,7 @@ class Chart extends Model
 
         return $return;
     }
+
 
     public function getVotes()
     {
@@ -132,5 +134,13 @@ class Chart extends Model
     public function isEnded():bool
     {
         return $this->autoset === 2;
+    }
+
+    public function canbeShown():bool
+    {
+        if($this->show_date === null){
+            return true;
+        }
+        return strtotime($this->show_date) <= time();
     }
 }

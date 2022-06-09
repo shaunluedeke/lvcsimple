@@ -19,8 +19,8 @@
 
         @foreach(\App\Models\Song::getAllSongsSortedbyLikes() as $key => $value)
             <tr>
-                <td>{{\App\Http\Controllers\MainController::addSymbol(\App\Models\Song::find($key)->name)}}</td>
-                <td>{{\App\Http\Controllers\MainController::addSymbol(\App\Models\Song::find($key)->getInfo()->author)}}</td>
+                <td>{!! \App\Http\Controllers\MainController::addSymbol(\App\Models\Song::find($key)->name)!!}</td>
+                <td>{!! \App\Http\Controllers\MainController::addSymbol(\App\Models\Song::find($key)->getInfo()->author)!!}</td>
                 <td>{{count(\App\Models\Song::find($key)->getLikes())}}</td>
                 <td>{{count(\App\Models\Song::find($key)->getDislikes())}}</td>
                 <td style="width: 15%"><a class="btn btn-primary" href="{{route('song.show', $key)}}">Anhören</a>

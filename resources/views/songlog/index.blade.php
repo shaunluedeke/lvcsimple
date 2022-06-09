@@ -20,8 +20,8 @@
             <tbody>
             @forelse($logs as $log)
                 <tr>
-                    <td>{{\App\Http\Controllers\MainController::addSymbol($log->song()->first()->name)}}</td>
-                    <td>{{\App\Http\Controllers\MainController::addSymbol($log->song()->first()->getInfo()->author)}}</td>
+                    <td>{!!  \App\Http\Controllers\MainController::addSymbol($log->song()->first()->name)!!}</td>
+                    <td>{!! \App\Http\Controllers\MainController::addSymbol($log->song()->first()->getInfo()->author)!!}</td>
                     @if($log->status_id === 1 )
                         <td>{{$log->created_at === null ? date('d.m.Y') : date('d.m.Y',strtotime($log->created_at))}}</td>
                         <td><a class="btn btn-primary" href="{{route('song.show', $log->song_id)}}">Neu Hinzugefügt</a></td>

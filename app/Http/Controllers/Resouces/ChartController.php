@@ -35,12 +35,11 @@ class ChartController extends Controller
 
     public function vote(Request $request, Chart $chart)
     {
-
-        if ($chart->userhasVoted()) {
-            return redirect()->back()->withErrors(['error' => 'You have already voted for this chart'])->withInput();
-        }
         if (MainController::isLogin() !== true) {
-            return redirect()->back()->withErrors(['error' => 'You must be logged in to vote'])->withInput();
+            return redirect()->back()->withErrors(['error' => 'Sie müssen eingeloggt sein'])->withInput();
+        }
+        if ($chart->userhasVoted()) {
+            return redirect()->back()->withErrors(['error' => 'Sie haben bereits für dieses Charts abgestimmt'])->withInput();
         }
         $input = $request->input();
         $exist = [];
@@ -53,15 +52,15 @@ class ChartController extends Controller
                         $exist[] = $in;
                         $data[explode('/', $key)[1]] = ($in === 3 ? 1 : ($in === 1 ? 3 : $in));
                     } else {
-                        return redirect()->back()->withErrors(['error' => 'You can only vote once for each place'])->withInput();
+                        return redirect()->back()->withErrors(['error' => 'Sie können für jeden Song nur einmal abstimmen'])->withInput();
                     }
                 }else if($in !== 0){
-                    return redirect()->back()->withErrors(['error' => 'You can only vote between 1 and 3'])->withInput();
+                    return redirect()->back()->withErrors(['error' => 'Sie können nur zwischen 1 und 3 abstimmen'])->withInput();
                 }
             }
         }
         if (count($data) !== 3) {
-            return redirect()->back()->withErrors(['error' => 'You must vote for all three options'])->withInput();
+            return redirect()->back()->withErrors(['error' => 'Sie müssen für alle drei Songs stimmen'])->withInput();
         }
 
         $votes = $chart->getVotes();
@@ -71,9 +70,9 @@ class ChartController extends Controller
             $chart->votes = json_encode($votes, JSON_THROW_ON_ERROR);
             $chart->update();
         } catch (\JsonException $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while saving your vote'])->withInput();
+            return redirect()->back()->withErrors(['error' => 'Beim Speichern Ihrer Stimme ist ein Fehler aufgetreten'])->withInput();
         }
 
-        return redirect()->back()->withErrors(['success' => 'Your vote has been recorded']);
+        return redirect()->back()->withErrors(['success' => 'Sie haben erfolgreich für dieses Charts abgestimmt']);
     }
 }

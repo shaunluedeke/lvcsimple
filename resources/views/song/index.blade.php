@@ -19,8 +19,8 @@
                 <tbody>
                 @forelse($songs as $song)
                     <tr>
-                        <td>{{\App\Http\Controllers\MainController::addSymbol((string)$song->name)}}</td>
-                        <td>{{\App\Http\Controllers\MainController::addSymbol((string)$song->getInfo()->author)}}</td>
+                        <td>{!!  \App\Http\Controllers\MainController::addSymbol((string)$song->name)!!}</td>
+                        <td>{!! \App\Http\Controllers\MainController::addSymbol((string)$song->getInfo()->author)!!}</td>
                         <td>{{$song->created_at === null ? date('d.m.Y') : date('d.m.Y',strtotime($song->created_at))}}</td>
                         <td><a class="btn btn-primary" href="{{route('song.show', $song->id)}}">Öffnen</a>
                         </td>

@@ -80,7 +80,7 @@
         <br><br>
         <h4>Nächster Sendetermin</h4>
         <hr>
-        <p>Die nächste Sendetermin ist am {{\App\Models\Brodcastdate::getNext()->getDay()}}
+        <p>Der nächste Sendetermin ist am {{\App\Models\Brodcastdate::getNext()->getDay()}}
             um {{\App\Models\Brodcastdate::getNext()->time}} Uhr auf
             <a href="{{\App\Models\Brodcastdate::getNext()->link}}" target="_blank">{{\App\Models\Brodcastdate::getNext()->name}}</a></p>
     @endif
