@@ -54,7 +54,7 @@
                                           href="{{route('song.show', $key)}}">Anhören</a>
                 </td>
             </tr>
-        @endforeach 
+        @endforeach
         </tbody>
     </table>
 @endsection
