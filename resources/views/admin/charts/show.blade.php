@@ -48,8 +48,8 @@
             <tr>
                 <td style="width: 5%">@php echo($value["song"]->isNewSong() ? '<span class="badge bg-primary">Neu</span>':''); @endphp</td>
                 <td>{{$value['place']}}</td>
-                <td>{{\App\Http\Controllers\MainController::addSymbol($value["song"]->name)}}</td>
-                <td>{{\App\Http\Controllers\MainController::addSymbol($value["song"]->getInfo()->author)}}</td>
+                <td>{!!  \App\Http\Controllers\MainController::addSymbol($value["song"]->name)!!}</td>
+                <td>{!!\App\Http\Controllers\MainController::addSymbol($value["song"]->getInfo()->author)!!}</td>
                 <td style="width: 15%"><a class="btn btn-primary"
                                           href="{{route('song.show', $key)}}">Anhören</a>
                 </td>

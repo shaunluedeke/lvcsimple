@@ -49,12 +49,21 @@ class Chart extends Model
     public function getVotes()
     {
         $a = [];
+        $r = [];
         try {
-            $a = json_decode($this->votes, true, 512, JSON_THROW_ON_ERROR);
+            $a = json_decode($this->votes, false, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
         }
-
-        return $a;
+        foreach($a as $key => $value){
+            if(User::where('userID',$key)->exists()){
+                foreach($value as $k => $v){
+                    if(Song::where('id',$k)->exists()) {
+                        $r[$key][$k] = $v;
+                    }
+                }
+            }
+        }
+        return $r;
     }
 
     public function userhasVoted()
@@ -95,23 +104,6 @@ class Chart extends Model
             }
         }
         arsort($ar);
-        try {
-            $a = json_decode($this->song_ids, true, 512, JSON_THROW_ON_ERROR);
-            foreach ($a as $key){
-                if(!Song::where('id',$key)->exists() && isset($ar[$key])){
-                    unset($ar[$key]);
-                }
-            }
-            foreach ($ar as $key => $value) {
-                if(!Song::where('id',$key)->exists()){
-                    unset($ar[$key]);
-                }
-                if (!in_array($key, $a, true)) {
-                    unset($ar[$key]);
-                }
-            }
-        } catch (\JsonException $e) {
-        }
         $place = 1;
         $return = [];
         foreach ($ar as $key => $value) {
@@ -144,7 +136,7 @@ class Chart extends Model
             $place++;
         }
         foreach ($votes as $key => $value) {
-            $re[$key] = ['id' => $key, 'votes' => $value, 'place' => $s[$key]];
+            $re[$key] = ['id' => $key, 'votes' => $value, 'place' => $s[$key]??0];
         }
         return $re;
     }
