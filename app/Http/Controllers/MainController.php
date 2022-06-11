@@ -64,8 +64,8 @@ class MainController extends Controller
             return redirect()->back()->withErrors(['datei' => 'Dateityp nicht erlaubt!'])->withInput();
         }
         $name = $this->removeSymbol($request->input('name','Kein Titel'));
-        $info = [ 'author' => $this->removeSymbol($request->input('author','Kein Autor')),
-                    'infotxt' => $this->removeSymbol($request->input('infotxt','Keine Info'))];
+        $info = [ 'author' => $this->removeSymbol((string)$request->input('author','Kein Autor')),
+                    'infotxt' => $this->removeSymbol((string)$request->input('infotxt','Keine Info'))];
         try {
             if(!Auth::user()->isAdmin()) {
                 $song = NewSong::create([

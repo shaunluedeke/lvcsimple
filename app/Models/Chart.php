@@ -37,7 +37,9 @@ class Chart extends Model
         } catch (\JsonException $e) {
         }
         foreach ($a as $key) {
-            $return[] = Song::find($key);
+            if(Song::where('id',$key)->exists()){
+                $return[] = Song::find($key);
+            }
         }
 
         return $return;
@@ -85,11 +87,31 @@ class Chart extends Model
         }
         $songs = $this->getSongs();
         foreach ($songs as $key) {
+            if($key === null) {
+                continue;
+            }
             if (((int)($ar[$key->id] ?? 0)) === 0) {
                 $ar[$key->id] = 0;
             }
         }
         arsort($ar);
+        try {
+            $a = json_decode($this->song_ids, true, 512, JSON_THROW_ON_ERROR);
+            foreach ($a as $key){
+                if(!Song::where('id',$key)->exists() && isset($ar[$key])){
+                    unset($ar[$key]);
+                }
+            }
+            foreach ($ar as $key => $value) {
+                if(!Song::where('id',$key)->exists()){
+                    unset($ar[$key]);
+                }
+                if (!in_array($key, $a, true)) {
+                    unset($ar[$key]);
+                }
+            }
+        } catch (\JsonException $e) {
+        }
         $place = 1;
         $return = [];
         foreach ($ar as $key => $value) {
@@ -100,6 +122,7 @@ class Chart extends Model
             ];
             $place++;
         }
+
         return $return;
     }
 

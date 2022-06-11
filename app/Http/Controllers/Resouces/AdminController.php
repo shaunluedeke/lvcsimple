@@ -8,6 +8,7 @@ use App\Models\Brodcastdate;
 use App\Models\Chart;
 use App\Models\NewSong;
 use App\Models\Song;
+use App\Models\SongLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -201,8 +202,9 @@ class AdminController extends Controller
         if (Auth::user() === null || !Auth::user()->isAdmin()) {
             return redirect()->route('home');
         }
-        Storage::disk('public')->delete("song/".$song->file);
-        $song->delete();
+        $song->is_active = (0);
+        $song->update();
+        SongLog::create(['song_id' => $song->id, 'status_id' => 2]);
         return redirect()->back()->withErrors(['success' => 'The song has been deleted']);
     }
 
